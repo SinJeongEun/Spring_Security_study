@@ -1,0 +1,10 @@
+
+
+dependencies {
+
+    implementation("$boot:spring-boot-starter-web")
+
+    //외부 모듈 사용을 위한 레퍼런스
+    implementation project(":comp-common-utils")
+}
+

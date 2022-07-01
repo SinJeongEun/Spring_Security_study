@@ -1,0 +1,45 @@
+rootProject.name = 'spring-security'
+
+// 개별 프로젝트를 build.gradle 을 통해 빌드하는 방식이다.
+// 여러 모듈 프로젝트를 포함하는 프로젝트를 구성할 것이다.
+// 아래 .each()를 통해 모듈 프로젝트들을  group으로 관리하기 위해
+// 자동 빌드하는 스크립트를 사용하였다.
+
+["comp", "web", "server"].each {
+
+    def compDir = new File(rootDir, it)
+    if(!compDir.exists()){
+        compDir.mkdirs()
+    }
+
+    compDir.eachDir {subDir ->
+
+        def gradleFile = new File(subDir.absolutePath, "build.gradle")
+        if(!gradleFile.exists()){
+            gradleFile.text =
+                    """
+
+                    dependencies {
+
+                    }
+
+                    """.stripIndent(20)
+        }
+
+        [
+                "src/main/java/com/sp/fc",
+                "src/main/resources",
+                "src/test/java/com/sp/fc",
+                "src/test/resources"
+        ].each {srcDir->
+            def srcFolder = new File(subDir.absolutePath, srcDir)
+            if(!srcFolder.exists()){
+                srcFolder.mkdirs()
+            }
+        }
+
+        def projectName = ":${it}-${subDir.name}";
+        include projectName
+        project(projectName).projectDir = subDir
+    }
+}
