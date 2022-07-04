@@ -20,7 +20,7 @@ public class StudentManager implements AuthenticationProvider, InitializingBean 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         StudentAuthenticationToken token = (StudentAuthenticationToken) authentication;
-        if(studentDB.containsKey(token.getName())){
+        if(studentDB.containsKey(token.getCredentials())){
             Student student = studentDB.get(token.getCredentials());
             return  StudentAuthenticationToken.builder()
                     .principal(student)

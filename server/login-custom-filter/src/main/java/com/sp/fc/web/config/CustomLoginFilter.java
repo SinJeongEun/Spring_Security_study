@@ -27,7 +27,7 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         password = (password != null) ? password : "";
 
         String type = request.getParameter("type");
-        if(type == null || type.equals("teacher")) {
+        if(type == null || !type.equals("teacher")) {
             //student
             StudentAuthenticationToken token = StudentAuthenticationToken.builder()
                     .credentials(username)
@@ -37,7 +37,6 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
             //teacher
             TeacherAuthenticationToken token = TeacherAuthenticationToken.builder()
                     .credentials(username)
-                    .details("커스텀한 토큰")
                     .build();
             return this.getAuthenticationManager().authenticate(token);
         }
