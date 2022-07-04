@@ -19,9 +19,9 @@ public class TeacherManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+        TeacherAuthenticationToken token = (TeacherAuthenticationToken) authentication;
         if(teacherDB.containsKey(token.getName())){
-            Teacher teacher = teacherDB.get(token.getName());
+            Teacher teacher = teacherDB.get(token.getCredentials());
             return  TeacherAuthenticationToken.builder()
                     .principal(teacher)
                     .details(teacher.getUsername())
@@ -33,8 +33,8 @@ public class TeacherManager implements AuthenticationProvider, InitializingBean 
 
     @Override
     public boolean supports(Class<?> authentication) { // 인증을 위임 받겠다는 의미
-        return authentication == UsernamePasswordAuthenticationToken.class ;  //우리는 usernamePasswordAuthenticationFilter 를 통해 토큰을 받을 거기 때문에
-        //UsernamePasswordAuthenticationToken 클래스 형태의 토큰이 들어오면 이의 provider로 동작하겠다는 의미이다.
+        return authentication == TeacherAuthenticationToken.class ;  //우리는 CustomLoginFilter 를 통해 토큰을 받을 거기 때문에
+        //TeacherAuthenticationToken 클래스 형태의 토큰이 들어오면 이의 provider로 동작하겠다는 의미이다.
     }
 
     @Override
