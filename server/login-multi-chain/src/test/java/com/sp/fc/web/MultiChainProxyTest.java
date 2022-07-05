@@ -31,7 +31,7 @@ public class MultiChainProxyTest {
     @LocalServerPort
     int port;
 
-    TestRestTemplate testClient = new TestRestTemplate("kim", "1");
+    TestRestTemplate testClient = new TestRestTemplate("choi", "1");
 
     @DisplayName("1. choi:1 로 로그인해서 학생 리스트를 내려받는다.")
     @Test
@@ -42,5 +42,6 @@ public class MultiChainProxyTest {
 
         assertNotNull(resp.getBody());
         assertEquals(3, resp.getBody().size());
+        System.out.println(resp.getBody());
     }
 }
