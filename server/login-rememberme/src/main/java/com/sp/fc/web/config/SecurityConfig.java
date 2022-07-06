@@ -14,9 +14,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.servlet.http.HttpSessionEvent;
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 
 @EnableWebSecurity(debug = true)
@@ -24,14 +29,40 @@ import java.time.LocalDateTime;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SpUserService spUserService;
+    private final DataSource dataSource;
 
-    public SecurityConfig(SpUserService spUserService) {
+    RememberMeAuthenticationFilter authenticationFilter;
+
+    public SecurityConfig(SpUserService spUserService, DataSource dataSource) {
         this.spUserService = spUserService;
+        this.dataSource = dataSource;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(spUserService);
+    }
+
+    @Bean
+    PersistentTokenRepository tokenRepository(){
+        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+        repository.setDataSource(dataSource);
+        try {
+                repository.removeUserTokens("1"); // token 1 은 당연히 없다. 초기에 테이블을 만들기 위한 꼼수이다
+        }catch (Exception e) {
+            repository.setCreateTableOnStartup(true);
+        }
+        return repository;
+    }
+
+    @Bean
+    PersistentTokenBasedRememberMeServices rememberMeServices() {
+        PersistentTokenBasedRememberMeServices services =
+                new PersistentTokenBasedRememberMeServices("hello",
+                        spUserService,
+                        tokenRepository()
+                );
+        return services;
     }
 
     @Bean
@@ -90,6 +121,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .logout(logout -> logout.logoutSuccessUrl("/"))
                 .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"))
+                .rememberMe(r -> r
+                        .rememberMeServices(rememberMeServices()))
                 ;
     }
 
