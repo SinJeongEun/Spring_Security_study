@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Controller
 public class SessionController {
-
     @Autowired
     private SessionRegistry sessionRegistry;
 

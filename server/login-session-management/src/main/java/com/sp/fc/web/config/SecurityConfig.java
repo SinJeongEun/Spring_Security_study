@@ -17,6 +17,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -33,6 +34,8 @@ import java.time.LocalDateTime;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     ConcurrentSessionFilter filter;
+    FilterSecurityInterceptor filterSecurityInterceptor;
+
     private final SpUserService spUserService;
     private final DataSource dataSource;
 
@@ -126,7 +129,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout(logout->
                         logout.logoutSuccessUrl("/"))
                 .exceptionHandling(error->
-                        error.accessDeniedPage("/access-denied")
+                        error
+//                        .accessDeniedPage("/access-denied")
+                                .accessDeniedHandler(new CustomDeniedHandler())
+                                .authenticationEntryPoint(new CustomEntryPoint())
                 )
                 .rememberMe(r->r
                         .rememberMeServices(rememberMeServices())
