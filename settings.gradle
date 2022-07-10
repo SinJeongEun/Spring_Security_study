@@ -5,7 +5,7 @@ rootProject.name = 'spring-security'
 // 아래 .each()를 통해 모듈 프로젝트들을  group으로 관리하기 위해
 // 자동 빌드하는 스크립트를 사용하였다.
 
-["comp", "web", "server"].each {
+["comp", "test", "web", "server"].each {
 
     def compDir = new File(rootDir, it)
     if(!compDir.exists()){
@@ -18,14 +18,13 @@ rootProject.name = 'spring-security'
         if(!gradleFile.exists()){
             gradleFile.text =
                     """
-
+                    
                     dependencies {
-
+                
                     }
-
+                
                     """.stripIndent(20)
         }
-
         [
                 "src/main/java/com/sp/fc",
                 "src/main/resources",

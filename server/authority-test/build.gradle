@@ -1,0 +1,10 @@
+
+
+dependencies {
+
+    implementation("$boot:spring-boot-starter-web")
+    implementation project(":test-web-util")
+
+
+}
+
