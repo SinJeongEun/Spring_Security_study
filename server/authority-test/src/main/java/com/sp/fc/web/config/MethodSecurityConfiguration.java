@@ -21,7 +21,7 @@ import org.springframework.security.core.Authentication;
 import java.util.ArrayList;
 import java.util.List;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration {
 
     @Autowired
@@ -50,7 +50,7 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
         decisionVoters.add(new PreInvocationAuthorizationAdviceVoter(expressionAdvice));
         decisionVoters.add(new RoleVoter());
         decisionVoters.add(new AuthenticatedVoter());
-//        decisionVoters.add(new CustomVoter());
+        decisionVoters.add(new CustomVoter());
 
         return new AffirmativeBased(decisionVoters); // 긍정 위원회 이므로 1개만 통과여도 granted 된다.
     }
