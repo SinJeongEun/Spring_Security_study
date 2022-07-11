@@ -16,7 +16,7 @@ import java.util.List;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PaperTest extends MyWebIntegrationTest{
+public class PaperTest extends MyWebIntegrationTest {
 
     @Autowired
     private PaperService paperService;
@@ -31,12 +31,20 @@ public class PaperTest extends MyWebIntegrationTest{
             .state(Paper.State.PREPARE)
             .build();
 
-    private Paper paper2= Paper.builder()
+    private Paper paper2 = Paper.builder()
             .paperId(2L)
             .title("시험지2")
             .tutorId("tutor1")
             .studentIds(List.of("user2"))
             .state(Paper.State.PREPARE)
+            .build();
+
+    private Paper paper3 = Paper.builder()
+            .paperId(3L)
+            .title("시험지3")
+            .tutorId("tutor1")
+            .studentIds(List.of("user1"))
+            .state(Paper.State.READY)
             .build();
 
 
@@ -71,6 +79,49 @@ public class PaperTest extends MyWebIntegrationTest{
         paperService.setPaper(paper2);
         client = new TestRestTemplate("user2", "1111");
         ResponseEntity<Paper> response = client.exchange(uri("/paper/get/2"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
+
+        assertEquals(403, response.getStatusCodeValue());
+    }
+
+    @DisplayName("4. postFilter 테스트")
+    @Test
+    void test_4() {
+        paperService.setPaper(paper1);
+        client = new TestRestTemplate("user1", "1111");
+        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/mypapers2"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
+        System.out.println(response.getBody());
+    }
+
+    @DisplayName("5. postFilter 테스트2")
+    @Test
+    void test_5() {
+        paperService.setPaper(paper1);
+        paperService.setPaper(paper2);
+        paperService.setPaper(paper3);
+
+        client = new TestRestTemplate("user1", "1111");
+        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/mypapers2"),
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
+                });
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
+        System.out.println(response.getBody());
+    }
+
+    @DisplayName("6. postAuthorize 테스트")
+    @Test
+    void test_6() {
+        paperService.setPaper(paper2);
+        client = new TestRestTemplate("user1", "1111");
+        ResponseEntity<Paper> response = client.exchange(uri("/paper/get2/2"),
                 HttpMethod.GET, null, new ParameterizedTypeReference<>() {
                 });
 

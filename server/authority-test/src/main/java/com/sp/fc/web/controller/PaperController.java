@@ -3,6 +3,8 @@ package com.sp.fc.web.controller;
 import com.sp.fc.web.service.Paper;
 import com.sp.fc.web.service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -25,9 +27,21 @@ public class PaperController {
         return paperService.getMyPapers(user.getUsername());
     }
 
+    @PostFilter("notPrepareState(filterObject) && filterObject.studentIds.contains(#user.username)")
+    @GetMapping("/mypapers2")
+    public List<Paper> myPapers2(@AuthenticationPrincipal User user){
+        return paperService.getMyPapers(user.getUsername());
+    }
+
     @PreAuthorize("hasPermission(#paperId, 'paper', 'read')")
     @GetMapping("/get/{paperId}")
     public Paper getPaper(@AuthenticationPrincipal User user, @PathVariable Long paperId){
+        return paperService.getPaper(paperId);
+    }
+
+    @PostAuthorize("returnObject.studentIds.contains(#user.username)")
+    @GetMapping("/get2/{paperId}")
+    public Paper getPaper2(@AuthenticationPrincipal User user, @PathVariable Long paperId){
         return paperService.getPaper(paperId);
     }
 }
