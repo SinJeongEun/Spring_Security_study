@@ -10,6 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 
 import java.util.List;
 
@@ -136,7 +137,7 @@ public class PaperTest extends MyWebIntegrationTest {
         paperService.setPaper(paper3);
 
         client = new TestRestTemplate("primary", "1111");
-        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/getPapersByPrimary"),
+        ResponseEntity<List<Paper>> response = client.exchange(uri("/paper/papersByPrimary"),
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<Paper>>() {
                 });
 
