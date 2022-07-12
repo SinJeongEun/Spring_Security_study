@@ -9,6 +9,8 @@ import org.springframework.security.access.expression.method.DefaultMethodSecuri
 import org.springframework.security.access.expression.method.ExpressionBasedPreInvocationAdvice;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
+import org.springframework.security.access.intercept.RunAsManager;
+import org.springframework.security.access.intercept.RunAsManagerImpl;
 import org.springframework.security.access.method.MethodSecurityMetadataSource;
 import org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
@@ -45,6 +47,14 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
     @Override
     protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {
         return new CustomMethodSecurityMetadataSource();
+    }
+
+    //임시 권한 제공 RunAs
+    @Override
+    protected RunAsManager runAsManager() {
+        RunAsManagerImpl runas = new RunAsManagerImpl();
+        runas.setKey("runas");
+        return runas;
     }
 
     @Override

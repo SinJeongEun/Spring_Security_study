@@ -58,4 +58,12 @@ public class PaperController {
     public List<Paper> getPaperByPrimary2 (@AuthenticationPrincipal User user) {
         return paperService.getAllPapers();
     }
+
+    //runas 테스트
+    @Secured({"ROLE_USER", "RUN_AS_PRIMARY"})
+    @GetMapping("/allpapers")
+    public List<Paper> allPapers (@AuthenticationPrincipal User user) {
+        return paperService.getAllPapers2();
+    }
+
 }

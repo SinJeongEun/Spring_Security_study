@@ -24,9 +24,10 @@ public class CustomVoter implements AccessDecisionVoter<MethodInvocation> {
     @Override
     public int vote(Authentication authentication, MethodInvocation object, Collection<ConfigAttribute> attributes) {
         // SCHOOL_ aa -> ROLE_aa 로 치환하는 로직
-        String role = attributes.stream().filter(attr -> attr.getAttribute().startsWith(PREFIX))
-                .map(attr -> attr.getAttribute().substring(PREFIX.length())).findAny().get();
-        if(authentication.getAuthorities().stream().filter(auth->auth.getAuthority().equals("ROLE_"+role.toUpperCase()))
+        String role = attributes.stream().filter(attr->attr.getAttribute().startsWith(PREFIX))
+                .map(attr->attr.getAttribute().substring(PREFIX.length()))
+                .findFirst().orElseGet(()->null);
+        if(role != null && authentication.getAuthorities().stream().filter(auth->auth.getAuthority().equals("ROLE_"+role.toUpperCase()))
                 .findAny().isPresent()) {
             return ACCESS_GRANTED;
         }

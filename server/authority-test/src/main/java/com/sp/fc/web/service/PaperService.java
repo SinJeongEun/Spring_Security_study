@@ -1,6 +1,7 @@
 package com.sp.fc.web.service;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -33,6 +34,11 @@ public class PaperService implements InitializingBean {
     }
 
     public List<Paper> getAllPapers() {
+        return paperDB.values().stream().collect(Collectors.toList());
+    }
+
+    @Secured({"ROLE_PRIMARY", "ROLE_RUN_AS_PRIMARY"})
+    public List<Paper> getAllPapers2() {
         return paperDB.values().stream().collect(Collectors.toList());
     }
 }
