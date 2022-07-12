@@ -1,5 +1,6 @@
 package com.sp.fc.web.controller;
 
+import com.sp.fc.web.annotation.CustomSecurityAnnotation;
 import com.sp.fc.web.service.Paper;
 import com.sp.fc.web.service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,12 @@ public class PaperController {
 //    @Secured({"SCHOOL_PRIMARY"})
     @GetMapping("/papersByPrimary")
     public List<Paper> getPaperByPrimary (@AuthenticationPrincipal User user) {
+        return paperService.getAllPapers();
+    }
+
+    @CustomSecurityAnnotation("SCHOOL_PRIMARY") //커스텀 어노테이션 사용하기
+    @GetMapping("/papersByPrimary2")
+    public List<Paper> getPaperByPrimary2 (@AuthenticationPrincipal User user) {
         return paperService.getAllPapers();
     }
 }
