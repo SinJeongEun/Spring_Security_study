@@ -14,17 +14,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest //db 데이터 소스를 h2 에 inmemory방식으로 만든다.
+@DataJpaTest //db 데이터 소스를 h2 에 inmemory 방식으로 만든다.
 @RequiredArgsConstructor
 class SchoolTest {
-//    학교를 생성한다.
-//    학교 이름을 수정한다.
-//    지역 목록을 가져온다.
-//    지역으로 학교 목록을 가져온다.
-    @Autowired
-    private SchoolRepository schoolRepository;
 
-    private SchoolService schoolService;
+    @Autowired
+    private  SchoolRepository schoolRepository;
+
+    @Autowired
+    private  SchoolService schoolService;
 
     private SchoolTestHelper schoolTestHelper;
     School school;
@@ -32,7 +30,7 @@ class SchoolTest {
     @BeforeEach
     void before() {
         this.schoolRepository.deleteAll();
-        this.schoolService = new SchoolService(schoolRepository);
+//        this.schoolService = new SchoolService(schoolRepository);
         this.schoolTestHelper = new SchoolTestHelper(this.schoolService);
         school = this.schoolTestHelper.createSchool("테스트 학교", "서울");
 

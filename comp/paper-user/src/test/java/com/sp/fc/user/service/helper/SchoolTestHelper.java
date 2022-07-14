@@ -3,6 +3,7 @@ package com.sp.fc.user.service.helper;
 import com.sp.fc.user.domain.School;
 import com.sp.fc.user.service.SchoolService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
