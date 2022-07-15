@@ -3,6 +3,9 @@ package com.sp.fc.user.service;
 import com.sp.fc.user.domain.School;
 import com.sp.fc.user.repository.SchoolRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.config.ScheduledTaskHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,13 @@ public class SchoolService {
         return schoolRepository.save(school);
     }
 
+    public Optional<School> findSchool(Long schoolId) {
+        return schoolRepository.findById(schoolId);
+    }
+
+    public Page<School> list(int pageNum, int size) {
+        return schoolRepository.findAllByOrderByCreatedDesc(PageRequest.of(pageNum - 1, size));
+    }
     public Optional<School> updateName(Long schoolId, String name){
         return schoolRepository.findById(schoolId).map(school -> {
             school.setName(name);
@@ -40,4 +50,7 @@ public class SchoolService {
         return schoolRepository.findAllByCity(city);
     }
 
+    public long count() {
+        return schoolRepository.count();
+    }
 }
