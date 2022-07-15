@@ -40,4 +40,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select count(a) from User a, Authority b where a.school.schoolId=?1 and a.userId=b.userId and b.authority=?2")
     long countAllByAuthoritiesIn(long schoolId, String authority);
+
 }

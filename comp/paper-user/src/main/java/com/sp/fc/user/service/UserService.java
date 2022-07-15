@@ -1,6 +1,5 @@
 package com.sp.fc.user.service;
 
-
 import com.sp.fc.user.domain.Authority;
 import com.sp.fc.user.domain.User;
 import com.sp.fc.user.repository.SchoolRepository;

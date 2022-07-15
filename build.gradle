@@ -41,7 +41,7 @@ subprojects {
         implementation "$boot:spring-boot-starter-security"
         implementation 'com.fasterxml.jackson.core:jackson-annotations'
 
-        compileOnly lombok
+        implementation lombok
         testCompileOnly lombok
         annotationProcessor lombok
         testAnnotationProcessor lombok

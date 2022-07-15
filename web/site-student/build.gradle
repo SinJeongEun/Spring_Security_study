@@ -3,9 +3,9 @@ apply from: "../web-common.gradle"
 
 dependencies {
 
+    implementation("org.springframework:spring-tx")
+
     implementation project(":comp-paper")
     implementation project(":comp-paper-user")
-    implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.11.RELEASE'
-
 }
 

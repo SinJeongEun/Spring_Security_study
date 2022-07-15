@@ -13,18 +13,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "sp_school")
+@Table(name="sp_school")
 public class School {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long schoolId;
 
     private String name;
 
     private String city;
 
+    @Transient
+    private Long teacherCount;
+
+    @Transient
+    private Long studyCount;
+
     @Column(updatable = false)
     private LocalDateTime created;
 
     private LocalDateTime updated;
+
 }

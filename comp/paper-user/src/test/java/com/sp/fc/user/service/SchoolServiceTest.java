@@ -68,11 +68,11 @@ class SchoolTest {
     @DisplayName("4. 지역으로 학교 목록을 가져온다.")
     @Test
     void test_4() {
-        List<School> list = schoolService.findAllByCity("서울");
+        List<School> list = schoolService.getSchoolList("서울");
         assertEquals(1, list.size());
 
         schoolTestHelper.createSchool("서울2 학교", "서울");
-        list = schoolService.findAllByCity("서울");
+        list = schoolService.getSchoolList("서울");
         assertEquals(2, list.size());
     }
 
