@@ -52,7 +52,7 @@ public class TeacherController {
         model.addAttribute("menu", "study");
         List<User> studyList = userService.findTeacherStudentList(user.getUserId());
         model.addAttribute("studyList", studyList);
-        return "/teacher/study/list.html";
+        return "/teacher/study/list";
     }
 
     /**
@@ -77,7 +77,7 @@ public class TeacherController {
             papers.stream().forEach(paper -> paper.setUser(userMap.get(paper.getStudyUserId())));
             model.addAttribute("template", paperTemplateService.findById(paperTemplateId).get());
             model.addAttribute("papers", papers);
-            return "/teacher/study/results.html";
+            return "/teacher/study/results";
         }).orElseThrow(()->new AccessDeniedException("시험지가 존재하지 않습니다."));
 
     }
@@ -95,13 +95,13 @@ public class TeacherController {
                     return template;
                 });
         model.addAttribute("page", templateList);
-        return "/teacher/paperTemplate/list.html";
+        return "/teacher/paperTemplate/list";
     }
 
     @GetMapping("/paperTemplate/create")
     public String editPaperTemplateName(@AuthenticationPrincipal User user, Model model){
 
-        return "/teacher/paperTemplate/create.html";
+        return "/teacher/paperTemplate/create";
     }
 
     @PostMapping(value="/paperTemplate/create", consumes = {"application/x-www-form-urlencoded;charset=UTF-8", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
@@ -112,7 +112,7 @@ public class TeacherController {
                 .build();
         paperTemplate = paperTemplateService.save(paperTemplate);
         model.addAttribute("template", paperTemplate);
-        return "/teacher/paperTemplate/edit.html";
+        return "/teacher/paperTemplate/edit";
     }
 
     @GetMapping("/paperTemplate/edit")
@@ -124,7 +124,7 @@ public class TeacherController {
         PaperTemplate paperTemplate = paperTemplateService.findProblemTemplate(paperTemplateId).orElseThrow(
                 ()->new IllegalArgumentException(paperTemplateId + " 시험지 템플릿이 존재하지 않음"));
         model.addAttribute("template", paperTemplate);
-        return "/teacher/paperTemplate/edit.html";
+        return "/teacher/paperTemplate/edit";
     }
 
     @PostMapping(value="/paperTemplate/problem/add", consumes = {"application/x-www-form-urlencoded;charset=UTF-8", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
@@ -138,7 +138,7 @@ public class TeacherController {
         PaperTemplate paperTemplate = paperTemplateService.findProblemTemplate(problemInput.getPaperTemplateId()).orElseThrow(
                 ()->new IllegalArgumentException(problemInput.getPaperTemplateId() + " 시험지 템플릿이 존재하지 않음"));
         model.addAttribute("template", paperTemplate);
-        return "/teacher/paperTemplate/edit.html";
+        return "/teacher/paperTemplate/edit";
     }
 
     /**

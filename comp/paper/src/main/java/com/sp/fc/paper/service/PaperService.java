@@ -9,6 +9,8 @@ import com.sp.fc.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -157,9 +159,13 @@ public class PaperService {
         return paperRepository.findAllByStudyUserIdAndStateInOrderByCreatedDesc(studyUserId, states);
     }
 
+    @PostAuthorize("returnObject.isEmpty() || returnObject.get().studyUserId == principal.userId") //자신의 시험지만 볼 수 있다. 다른 학생의 시험지는 볼 수 없게 됨
     @Transactional(readOnly = true)
     public Optional<Paper> findPaper(Long paperId) {
-        return paperRepository.findById(paperId);
+        return paperRepository.findById(paperId).map(paper -> {
+            paper.setUser(userRepository.getOne(paper.getStudyUserId()));
+            return paper;
+        });
     }
 
 }

@@ -6,6 +6,7 @@ import com.sp.fc.paper.repository.PaperTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,6 +79,7 @@ public class PaperTemplateService {
         problemService.updateProblem(problemId, content, answer);
     }
 
+    @PostAuthorize("returnObject.isEmpty() || returnObject.get().userId == principal.userId") // 해당 선생이 작성한 시험지만 조회 가능, 다른 선생의 시험지 조회 막기
     @Transactional(readOnly = true)
     public Optional<PaperTemplate> findProblemTemplate(Long paperTemplateId) {
         return paperTemplateRepository.findById(paperTemplateId).map(pt->{

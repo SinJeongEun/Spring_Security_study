@@ -115,4 +115,9 @@ public class HomeController {
 //        return "redirect:/"+site+"/signup"; // manager, student, teacher 에 따른 회원가입 페이지 redirect
     }
 
+    @GetMapping("/access-denied")
+    public String accessDenied(){
+        return "AccessDenied";
+    }
+
 }

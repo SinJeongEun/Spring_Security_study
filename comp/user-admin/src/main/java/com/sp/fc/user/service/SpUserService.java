@@ -38,12 +38,12 @@ public class SpUserService implements UserDetailsService {
     public void addAuthority(Long userId, String authority){
         spUserRepository.findById(userId).ifPresent(user->{
             SpAuthority newRole = new SpAuthority(user.getUserId(), authority);
-            if(user.getAuthorities() == null){
+            if(user.getAuthorities() == null){ // 기존에 권한이 없었다면  새로운 hashSet 만들어서 권한 삽입 후 저장
                 HashSet<SpAuthority> authorities = new HashSet<>();
                 authorities.add(newRole);
                 user.setAuthorities(authorities);
                 save(user);
-            }else if(!user.getAuthorities().contains(newRole)){
+            }else if(!user.getAuthorities().contains(newRole)){ // 권한이 있다면 hashSet 새로 만들어서 기존 권한 넣고, 새로운 권한 추가
                 HashSet<SpAuthority> authorities = new HashSet<>();
                 authorities.addAll(user.getAuthorities());
                 authorities.add(newRole);
