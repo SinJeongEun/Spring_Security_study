@@ -1,5 +1,6 @@
 package com.sp.fc.web.config;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.sp.fc.user.domain.SpUser;
 import com.sp.fc.user.service.SpUserService;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +42,7 @@ public class JWTCheckFilter extends BasicAuthenticationFilter { //request 가 �
             );
             SecurityContextHolder.getContext().setAuthentication(userToken); // securityContext 에 인증된 토큰을 넣어준다.
         } else {
-            throw new AuthenticationException("token is not valid");
+            throw new TokenExpiredException("token is not valid");
         }
         chain.doFilter(request, response);
     }
