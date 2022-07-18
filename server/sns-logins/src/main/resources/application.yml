@@ -1,0 +1,16 @@
+server:
+  port: 9061
+
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 289471259448-v8usv8hg163d56el2m56grc513dq683p.apps.googleusercontent.com
+            clientSecret: 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
+
+#        provider:
+#          naver:
+#          kakao:
