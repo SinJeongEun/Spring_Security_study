@@ -41,7 +41,7 @@ public class SpOAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         }else if(principal instanceof OAuth2User) {
             //naver
-            SpOAuth2User oauth = SpOAuth2User.OAuth2Provider.google.convert((OAuth2User) principal);
+            SpOAuth2User oauth = SpOAuth2User.OAuth2Provider.naver.convert((OAuth2User) principal);
             SpUser user = spUserService.load(oauth);
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities())
