@@ -1,25 +1,32 @@
 package com.sp.fc.user.service;
 
 import com.sp.fc.user.domain.SpAuthority;
+import com.sp.fc.user.domain.SpOAuth2User;
 import com.sp.fc.user.domain.SpUser;
+import com.sp.fc.user.repository.SpOAuth2UserRepository;
 import com.sp.fc.user.repository.SpUserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@AllArgsConstructor
 public class SpUserService implements UserDetailsService {
 
-    private final SpUserRepository spUserRepository;
+    @Autowired
+    private  SpUserRepository spUserRepository;
+
+    @Autowired
+    private com.sp.fc.user.repository.SpOAuth2UserRepository SpOAuth2UserRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -65,5 +72,23 @@ public class SpUserService implements UserDetailsService {
                 save(user);
             }
         });
+    }
+
+    // 소셜 로그인 한 유저가 db에 있으면 spUser 객체를 리턴하고, 없으면 SpUser 만들어서 우리의 유저 테이블에 저장한다.
+    public SpUser load(final SpOAuth2User oauth2User){
+        SpOAuth2User user = SpOAuth2UserRepository.findById(oauth2User.getOauth2UserId()).orElseGet(()->{
+            SpUser spUser = new SpUser();
+            spUser.setEmail(oauth2User.getEmail());
+            spUser.setName(oauth2User.getName());
+            spUser.setEnabled(true);
+            spUser.setPassword("");
+            spUserRepository.save(spUser);
+            addAuthority(spUser.getUserId(), "ROLE_USER");
+
+            oauth2User.setUserId(spUser.getUserId());
+            oauth2User.setCreated(LocalDateTime.now());
+            return SpOAuth2UserRepository.save(oauth2User);
+        });
+        return spUserRepository.findById(user.getUserId()).get();
     }
 }

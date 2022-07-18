@@ -5,5 +5,10 @@ dependencies {
 
     implementation("$boot:spring-boot-starter-oauth2-client")
 
+    runtimeOnly("com.h2database:h2")
+
+    implementation project(":comp-user-admin")
+
+
 }
 

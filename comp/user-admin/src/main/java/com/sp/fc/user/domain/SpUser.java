@@ -27,6 +27,8 @@ public class SpUser implements UserDetails {
 
     private String email;
 
+    private String name;
+
     private String password;
 
     private boolean enabled;

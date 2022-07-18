@@ -1,5 +1,6 @@
 package com.sp.fc.user.config;
 
+import org.hibernate.service.spi.InjectService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
