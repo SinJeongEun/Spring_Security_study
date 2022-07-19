@@ -40,9 +40,19 @@ public class SpOAuth2SuccessHandler implements AuthenticationSuccessHandler {
             );
 
         }else if(principal instanceof OAuth2User) {
+            String provider = request.getRequestURI().split("/")[4];
+//            System.out.println(">>>   " + request.getRequestURI());
+            SpOAuth2User oauth = null;
+            SpUser user = null;
             //naver
-            SpOAuth2User oauth = SpOAuth2User.OAuth2Provider.naver.convert((OAuth2User) principal);
-            SpUser user = spUserService.load(oauth);
+            if(provider.equals("naver")){
+                oauth = SpOAuth2User.OAuth2Provider.naver.convert((OAuth2User) principal);
+                user = spUserService.load(oauth);
+            }else if(provider.equals("kakao")) { //kakao
+                oauth = SpOAuth2User.OAuth2Provider.kakao.convert((OAuth2User) principal);
+                user = spUserService.load(oauth);
+            }
+
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities())
             );
