@@ -31,7 +31,7 @@ public class SpOAuth2SuccessHandler implements AuthenticationSuccessHandler {
         if(principal instanceof OidcUser) {
             // google
             // oidcUser 를 SpOAuth2User 변환한다.
-            // loadUser() 로 SpUser 로 매핑한다.
+            // load() 로 SpUser 로 매핑한다.
             // SecurityContextHolder 에 인증된 사용자로 넣어준다.
             SpOAuth2User oauth = SpOAuth2User.OAuth2Provider.google.convert((OidcUser) principal);
             SpUser user = spUserService.load(oauth);

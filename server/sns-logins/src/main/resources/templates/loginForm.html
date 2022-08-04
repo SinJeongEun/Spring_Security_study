@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+
+<div class="container center-contents">
+    <div class="row">
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+            <a href="/oauth2/authorization/google">구글 로그인</a>
+            <a href="/oauth2/authorization/naver">네이버 로그인</a>
+            <a href="/oauth2/authorization/kakao">카카오 로그인</a>
+            <!-- /oauth2/authorization/{registrationId}에 요청이 들어오면,
+    스프링 시큐리티가 provider의 authorization-uri로 요청을 전달한다-->
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.js}" />
+</body>
+</html>

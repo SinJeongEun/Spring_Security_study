@@ -35,6 +35,12 @@
             <div class="error-message" th:if="${loginError}">
                 <span> 아이디나 패스워드가 올바르지 않습니다. </span>
             </div>
+
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn-danger">네이버 로그인</button>
+                <button type="button" class="btn btn-warning">카카오 로그인</button>
+                <button type="button" class="btn btn-success">구글 로그인</button>
+            </div>
         </form>
 
     </div>

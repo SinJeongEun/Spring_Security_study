@@ -18,11 +18,4 @@ public class SpOAuth2UserService extends DefaultOAuth2UserService {
         return super.loadUser(userRequest);
     }
 
-//    public String checkProvider() {
-//        OAuth2UserRequest userRequest = this.request;
-//        String provider = userRequest.getClientRegistration().getRegistrationId();
-//        if (provider.equals("naver")) return "naver";
-//        else if (provider.equals("kakao")) return "kakao";
-//        else return "";
-//    }
 }

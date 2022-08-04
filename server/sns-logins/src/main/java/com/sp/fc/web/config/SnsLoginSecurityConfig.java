@@ -25,12 +25,18 @@ public class SnsLoginSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .oauth2Login(oauth2 -> oauth2
+                                .loginPage("/login")
 //                        .userInfoEndpoint(
 //                            userInfo -> userInfo.userService(oAuth2UserService)
 //                                .oidcUserService(oidcUserService)
 //                        )
                         .successHandler(spOAuth2SuccessHandler)
                 )
-                ;
+//                .logout()
+//                .clearAuthentication(true)
+//                .invalidateHttpSession(true)
+//                .deleteCookies("JSESSIONID")
+//                .logoutSuccessUrl("/") // 로그아웃 성공시
+//                ;
     }
 }
