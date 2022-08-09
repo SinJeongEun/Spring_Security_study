@@ -31,7 +31,7 @@ public class SnsLoginSecurityConfig extends WebSecurityConfigurerAdapter {
 //                                .oidcUserService(oidcUserService)
 //                        )
                         .successHandler(spOAuth2SuccessHandler)
-                )
+                );
 //                .logout()
 //                .clearAuthentication(true)
 //                .invalidateHttpSession(true)

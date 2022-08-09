@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<header th:fragment="menuFragment">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark site-manager">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav right-menus">
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                            <span sec:authentication="name"> litze </span> 님이 로그인 중
+                        <br>
+                           principal : <span sec:authentication="principal"> </span>
+                        <br>
+                           이메일 : <span sec:authentication="principal.email"> </span>
+                        <br>
+                           이름 : <span sec:authentication="principal.name"> </span>
+
+                        </a>
+                        <br>
+                        <br>
+                        <div class="dropdown-menu" aria-labelledby="user-menus">
+                            <a class="dropdown-item" href="#"> 내 정보 </a>
+                            <a class="dropdown-item" href="/logout"> 로그 아웃 </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+</html>
