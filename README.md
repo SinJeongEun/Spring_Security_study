@@ -25,6 +25,7 @@
   - UsernamePasswordAuthenticationFilter(form login) 사용
   - UserDetailsService 커스텀 하기
 ## paper-app
+  - 미니 프로젝트
 ## security-advanced
   - JWT 토큰 발행
 ## sns-logins
