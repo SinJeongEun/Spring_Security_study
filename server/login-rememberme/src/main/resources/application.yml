@@ -18,7 +18,7 @@ spring:
 
   datasource:
     url: jdbc:h2:file:~/dev/temp/h2db/rememberme
-    driverClassName: org.h2.Driver
+    driver-class-name: org.h2.Driver
     username: sa
     password:
 

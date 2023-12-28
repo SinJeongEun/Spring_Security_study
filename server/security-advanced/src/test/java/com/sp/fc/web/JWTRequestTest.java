@@ -15,6 +15,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -73,6 +75,7 @@ public class JWTRequestTest extends MyWebIntegrationTest {
         HttpEntity body = new HttpEntity<>(null, header);
         ResponseEntity<String> resp2 = client.exchange(uri("/greeting"), HttpMethod.GET, body, String.class);
 
+        System.out.println( resp2.getBody());
         assertEquals("hello", resp2.getBody());
     }
 
@@ -102,4 +105,25 @@ public class JWTRequestTest extends MyWebIntegrationTest {
         System.out.println(resp3.getBody());
     }
 
+
+    @DisplayName("request 조작 및 컨트롤러에서 받기")
+    @Test
+    void test_modifyRequest() {
+        System.out.println(uri("/check"));
+        // 인증 받기
+        TokenBox token = getToken();
+
+        RestTemplate client = new RestTemplate();
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
+
+        HashMap<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("form1","111");
+        bodyMap.put("form2","222");
+        bodyMap.put("form3","333");
+        HttpEntity body = new HttpEntity<>(bodyMap, header);
+        ResponseEntity<String> resp2 = client.exchange(uri("/check"), HttpMethod.POST, body, String.class);
+
+        System.out.println("res body  {}"+resp2);
+    }
 }

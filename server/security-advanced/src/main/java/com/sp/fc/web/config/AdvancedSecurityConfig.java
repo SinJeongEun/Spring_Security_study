@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -19,6 +20,9 @@ public class AdvancedSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SpUserService spUserService;
+
+    @Autowired
+    private CorsFilter corsFilter;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -35,9 +39,14 @@ public class AdvancedSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement(session ->
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰을 사용할 것이므로 세션을 사용하지 않느다.
                 )
+                .addFilter(corsFilter)  // cors 정책에서 벗어나기 위함이다. / @CrossOfigin은 인증이 필요 없는 경우 사용하고, 인증이 필요한 경우 앞과 같이 설정한다.
+                .formLogin().disable()
+                .httpBasic().disable()
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class) //UsernamePasswordAuthenticationFilter 자리에 커스텀 필터 위치 시킨다
                 .addFilterAt(checkFilter, BasicAuthenticationFilter.class)
-                ;
+                .authorizeRequests()
+                .anyRequest().permitAll()
+        ;
 
     }
 }
